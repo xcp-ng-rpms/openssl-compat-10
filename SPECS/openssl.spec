@@ -29,7 +29,7 @@
 Summary: Utilities from the general purpose cryptography library with TLS implementation
 Name: openssl-compat-10
 Version: 1.0.2k
-Release: %{?xsrel}%{?dist}
+Release: %{?xsrel}.1%{?dist}
 # We have to remove certain patented algorithms from the openssl source
 # tarball with the hobble-openssl script which is included below.
 # The original openssl upstream tarball cannot be shipped in the .src.rpm.
@@ -120,6 +120,12 @@ Patch71: openssl-1.0.2k-cve-2023-0286-X400.patch
 Patch72: fix-test-ca-by-tmp-path.patch
 Patch73: 1.0.2_update_expiring_certificates.patch
 
+# XCP-ng patches
+# https://github.com/sidneys/homebrew-homebrew/issues/23#issuecomment-1731492984
+Patch1000: openssl-1.0.2k-cve-2019-1547.backport.patch
+Patch1001: openssl-1.0.2k-cve-2019-1551.backport.patch
+Patch1002: openssl-1.0.2k-cve-2019-1563.backport.patch
+
 License: OpenSSL
 Group: System Environment/Libraries
 URL: http://www.openssl.org/
@@ -129,6 +135,7 @@ BuildRequires: lksctp-tools-devel
 BuildRequires: /usr/bin/rename
 BuildRequires: /usr/bin/pod2man
 BuildRequires: vim
+BuildRequires: gcc
 Requires: coreutils, make
 Requires: %{name}-libs%{?_isa} = %{version}-%{release}
 
@@ -430,10 +437,16 @@ rm -rf %{buildroot}/usr/lib/debug
 %postun libs -p /sbin/ldconfig
 
 %changelog
-* Thu Feb 13 2025 Lin Liu <deli.zhang@cloud.com> - 1.0.2k-26.1
-- CP-53507: Build OpenSSL 1.0.2k-26 compatible package
+* Thu Aug 07 2025 Andrii Sultanov <andriy.sultanov@vates.tech> - 1.0.2k-26.1.1
+- First build - OpenSSL 1.0.2k-26 compatible package
+- Add backported patches from our OpenSSL package: openssl-1.0.2k-cve-2019-1547.backport.patch,
+  openssl-1.0.2k-cve-2019-1551.backport.patch, openssl-1.0.2k-cve-2019-1563.backport.patch
+  (the openssl-1.0.2k-update-expiring-certificates.patch was dropped since it
+  was already included in the upstream package)
+- *** Upstream changelog ***
+  * Thu Feb 13 2025 Lin Liu <deli.zhang@cloud.com> - 1.0.2k-26.1
+  - CP-53507: Build OpenSSL 1.0.2k-26 compatible package
 
-* Thu Jul 18 2024 Lin Liu <Lin.Liu01@cloud.com> - 1.0.2k-26
-- First imported release
-
+  * Thu Jul 18 2024 Lin Liu <Lin.Liu01@cloud.com> - 1.0.2k-26
+  - First imported release
 
