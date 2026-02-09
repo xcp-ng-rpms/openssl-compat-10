@@ -29,7 +29,8 @@
 Summary: Utilities from the general purpose cryptography library with TLS implementation
 Name: openssl-compat-10
 Version: 1.0.2k
-Release: %{?xsrel}.1%{?dist}
+# To follow openssl-1:1.0.2k-26.2 we force a later version (unsync with xsrel)
+Release: 26.2.1%{?dist}
 # We have to remove certain patented algorithms from the openssl source
 # tarball with the hobble-openssl script which is included below.
 # The original openssl upstream tarball cannot be shipped in the .src.rpm.
@@ -158,6 +159,9 @@ support cryptographic algorithms and protocols.
 %package devel
 Summary: Files for development of applications which will use OpenSSL
 Group: Development/Libraries
+Provides: openssl-devel = 1:%{version}-%{release}
+# Last version in XCP-ng before openssl-3 was 1:1.0.2k-26.2
+Obsoletes: openssl-devel < 1:1.0.2k-26.3
 Requires: %{name}-libs%{?_isa} = %{version}-%{release}
 Requires: krb5-devel%{?_isa}, zlib-devel%{?_isa}
 Requires: pkgconfig
@@ -437,6 +441,10 @@ rm -rf %{buildroot}/usr/lib/debug
 %postun libs -p /sbin/ldconfig
 
 %changelog
+* Mon Feb 09 2026 Philippe Coval <philippe.coval@vates.tech> - 1.0.2k-26.2.1
+- Replace older openssl-devel (1.0 API) during transition
+- Release is set 26.2.1 (as a follow up of openssl-1:1.0.2k-26.2)
+
 * Thu Aug 07 2025 Andrii Sultanov <andriy.sultanov@vates.tech> - 1.0.2k-26.1.1
 - First build - OpenSSL 1.0.2k-26 compatible package
 - Add backported patches from our OpenSSL package: openssl-1.0.2k-cve-2019-1547.backport.patch,
