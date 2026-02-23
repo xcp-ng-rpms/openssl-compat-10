@@ -30,7 +30,7 @@ Summary: Utilities from the general purpose cryptography library with TLS implem
 Name: openssl-compat-10
 Version: 1.0.2k
 # To follow openssl-1:1.0.2k-26.2 we force a later version (unsync with xsrel)
-Release: 26.2.1%{?dist}
+Release: 26.2.1~XCPNG2710.1%{?dist}
 # We have to remove certain patented algorithms from the openssl source
 # tarball with the hobble-openssl script which is included below.
 # The original openssl upstream tarball cannot be shipped in the .src.rpm.
